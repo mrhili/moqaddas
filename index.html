@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Mouqadass </title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/prettyPhoto.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+    <link href="https://fonts.googleapis.com/css?family=Amiri" rel="stylesheet">
+    <style type="text/css">
+
+
+      .quran{
+
+        font-family: 'Amiri', serif;
+        line-height: 2;
+
+      }
+    </style>
+  </head>
+  <body class="homepage">
+    <header id="header">
+      <div class="top-bar">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-6 col-xs-4">
+              <div class="top-number">
+                <p><i class="fa fa-phone-square"></i> +0123 456 70 90</p>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-8">
+              <div class="social">
+                <ul class="social-share">
+                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                  <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                  <li><a href="#"><i class="fa fa-skype"></i></a></li>
+                </ul>
+                <div class="search">
+                  <form role="form">
+                    <input type="text" class="search-form" autocomplete="off" placeholder="Search">
+                    <i class="fa fa-search"></i>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="navbar navbar-inverse" role="banner">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="logo"></a>
+          </div>
+          <div class="collapse navbar-collapse navbar-right">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="index.html">Aya</a></li>
+              
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <section id="partner">
+      <div class="container">
+        <div class="center wow fadeInDown">
+        <div id="sajda"></div>
+          <h2 class="quran">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم </h2>
+          <hr />
+          <br />
+
+          <h1 id="aya-display" class="quran"></h1>
+          <hr />
+          <br />
+          <p class="lead" id="translation-display"></p>
+          <button id="last" class="btn btn-success pull-left gen"><i class="fa fa fa-caret-left"></i> last</button>
+
+          <button class="btn btn-default cp" data-clipboard-target="#aya-display">
+                    <i class="fa fa-clipboard"></i> copy Aya
+          </button>
+          <button class="btn btn-default cp" data-clipboard-target="#translation-display">
+                    <i class="fa fa-clipboard"></i> copy Translation
+          </button>
+          <button id="random-aya" class="btn btn-success gen">Random Aya</button>
+
+
+          <button id="next" class="btn btn-success pull-right gen" data-item="1">next <i class="fa fa fa-caret-right"></i></button>
+
+          <div class="col-xs-12">
+
+            <div class="col-md-6">
+              <div class="alert alert-default">
+                <h3>Informations about Surah:</h3>
+                <hr />
+                <p>Surrah: N° <span id="surah-num">...</span>
+                <br />
+                <span id="surah-name-en">...</span> | <span id="surah-name-ar">...</span></p>
+                <p>Surrah name transation: <span id="surah-name-tr">...</span></p>
+
+              </div>
+
+
+            </div>
+
+
+            <div class="col-md-6">
+
+
+              <div class="alert alert-default">
+                <h3>Additional info: </h3>
+                <hr />
+                <p>Juz : <span id="juz">...</span></p>
+                <p>Page : <span id="page">...</span></p>
+                <p>Hizb Quarter" : <span id="quart-hizb">...</span></p>
+
+              </div>
+            </div>
+
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+    </section>
+
+    <section id="bottom">
+      <div class="container wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
+        <div class="row">
+          <div class="col-md-3 col-sm-6">
+            <div class="widget">
+              <h3>Information</h3>
+              <ul>
+                <li><a href="#">Link</a></li>
+
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="widget">
+              <h3>Events</h3>
+              <ul>
+                <li><a href="#">Link</a></li>
+
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="widget">
+              <h3>Volunteer</h3>
+              <ul>
+                <li><a href="#">Link</a></li>
+
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="widget">
+              <h3>Recommended Links</h3>
+              <ul>
+                <li><a href="#">Link</a></li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer id="footer" class="midnight-blue">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6">
+            &copy; 2018 <a target="_blank" href="https://freeislamictemplates.appspot.com/" title="Free Islamic Templates">Mouadass</a>. All Rights Reserved.
+          </div>
+          <div class="col-sm-6">
+            <ul class="pull-right">
+              <li><a href="index.html">Aya</a></li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+    <script src="js/jquery.isotope.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+    <script type="text/javascript">new ClipboardJS('.cp');</script>
+    <script>
+      $(document).ready(function(){
+        next = $("#next");
+        last = $("#last");
+        generators = $(".gen");
+        ayadisp = $("#aya-display");
+        transdisp = $("#translation-display");
+        surahnum = $("#surah-num");
+        surahNameEn = $("#surah-name-en");
+        surahNameAr = $("#surah-name-ar");
+        surahNameTr = $("#surah-name-tr");
+        juz = $("#juz");
+        page = $("#page");
+        quartHizb = $("#quart-hizb");
+        sajda = $("#sajda");
+
+      
+        function getQuote(num){
+          ///editions/quran-uthmani,en.asad
+            axios.get('http://api.alquran.cloud/ayah/'+num+'/editions/quran-simple,en.asad')
+            .then(function (response) {
+              // handle success
+
+              data = response.data;
+      
+              ayadisp.text(data.data[0].text);
+              transdisp.text(data.data[1].text);
+
+              surahnum.text(data.data[0].surah.number);
+              surahNameEn.text(data.data[0].surah.englishName);
+              surahNameAr.text(data.data[0].surah.name);
+              surahNameTr.text(data.data[1].surah.englishNameTranslation);
+              juz.text(data.data[0].juz);
+              page.text(data.data[0].page);
+              quartHizb.text(data.data[0].hizbQuarter);
+
+              if(data.data[0].sajda){
+
+                sajda.html('<img src="images/application/quran/sujud.png" height="150" width="150">');
+
+              }
+
+      
+              next.attr('data-item', Number( response.data.data[0].number ) +1 );
+              last.attr('data-item', Number( response.data.data[0].number ) -1 );
+      
+            if (window.localStorage) {
+              // Browser supports localStorage
+              // Good to go
+      
+              localStorage.setItem('quran-aya', Number( response.data.data[0].number ) );
+              
+            }
+      
+      
+      
+              console.log(response);
+            })
+            .catch(function (error) {
+              // handle error
+              console.log(error);
+              alert(error);
+            })
+        }
+      
+      
+        if (window.localStorage) {
+          // Browser supports localStorage
+          // Good to go
+          if( localStorage.getItem('quran-aya') ){
+      
+            next.attr('data-item', localStorage.getItem('quran-aya') );
+      
+          }
+          
+        }
+      
+      
+        getQuote(next.attr('data-item'));
+      
+      
+          $("#next").click(function(){
+      
+            generators.attr('disabled', true);
+      
+            getQuote( $(this).attr('data-item'));
+      
+            generators.attr('disabled', false);
+      
+          });
+      
+          $("#last").click(function(){
+      
+            generators.attr('disabled', true);
+      
+            getQuote( $(this).attr('data-item'));
+      
+            generators.attr('disabled', false);
+      
+          });
+
+
+
+          $("#random-aya").click(function(){
+      
+            generators.attr('disabled', true);
+
+            random = Math.floor(Math.random() * 6236) + 1;
+      
+            getQuote( random );
+      
+            generators.attr('disabled', false);
+      
+          });
+      
+      
+      });
+      
+    </script>
+  </body>
+</html>
