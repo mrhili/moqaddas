@@ -70,7 +70,7 @@
           <div class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
               <li class="active"><a href="index.html">Aya</a></li>
-              
+
             </ul>
           </div>
         </div>
@@ -81,13 +81,13 @@
         <div class="center wow fadeInDown">
         <div class="col-xs-12">
           <div id="sajda" class="col-xs-6">
-            
+
           </div>
           <div class="col-xs-6">
           </div>
-          
+
         </div>
-        
+
           <h2 class="quran">أعوذ بالله من الشيطان الرجيم | <span id="aya-number-read">0</span> </h2>
           <!--
           بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم أو
@@ -174,7 +174,7 @@
 
           <div id="durar" class="scripting">
             المرجوا الظغط على الكلمات القرئانية لكي يتحقق البحت.<br />
-            <a href="#aya-display"><i class="fa fa-5x fa-hand-o-up"></i></a>
+            <a  data-scroll href="#aya-display"><i class="fa fa-5x fa-hand-o-up"></i></a>
           </div>
         </div>
 
@@ -269,8 +269,13 @@
     <script src="js/wow.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@14.2.1/dist/smooth-scroll.min.js"></script>
+
 
     <script type="text/javascript">new ClipboardJS('.cp');</script>
+    <script>
+    	var scroll = new SmoothScroll('a[href*="#"]');
+    </script>
     <script>
       $(document).ready(function(){
         next = $("#next");
@@ -288,8 +293,45 @@
         sajda = $("#sajda");
         aya_read = $("#aya-number-read");
         $durar = $("#durar");
+        durarQ = document.querySelector('#durar');
 
-      
+        var someAyat = [
+
+            [
+              "#last",
+              "#last"
+            ],
+            [
+              "#last",
+              "#last"
+            ],
+            [
+              "#last",
+              "#last"
+            ],
+            [
+              "#last",
+              "#last"
+            ],
+            [
+              "#last",
+              "#last"
+            ],
+            [
+              "#last",
+              "#last"
+            ],
+            [
+              "#last",
+              "#last"
+            ],
+            [
+              "#last",
+              "#last"
+            ]
+         ];
+
+
         function getQuote(num){
           ///editions/quran-uthmani,en.asad
             axios.get('http://api.alquran.cloud/ayah/'+num+'/editions/quran-simple,en.asad')
@@ -302,13 +344,12 @@
 
               joumla_splited = joumla.split(' ');
 
-
               joumla_splited =joumla_splited.map(function(klma){
                 return '<span class="search_about pointer">'+klma+'</span>';
               });
 
               joumla_trimed = joumla_splited.join(' ');
-      
+
               ayadisp.html(joumla_trimed);
               transdisp.text(data.data[1].text);
 
@@ -326,41 +367,55 @@
 
               }
 
-      
+
               next.attr('data-item', Number( response.data.data[0].number ) +1 );
               last.attr('data-item', Number( response.data.data[0].number ) -1 );
-      
+
             if (window.localStorage) {
               // Browser supports localStorage
               // Good to go
-      
+
               localStorage.setItem('quran-aya', Number( response.data.data[0].number ) );
               old_read = Number (localStorage.getItem('aya-number-read') );
               localStorage.setItem('aya-number-read', old_read +1 );
 
               aya_read.text( old_read +1 );
-              
+
             }
-      
-      
-      
+
               console.log(response);
             })
             .catch(function (error) {
               // handle error
               console.log(error);
-              alert(error);
+
+                var randomNumber = Math.floor(Math.random()*someAyat.length);
+
+                ayadisp.html( someAyat[randomNumber] );
+                if (window.localStorage) {
+                  // Browser supports localStorage
+                  // Good to go
+
+                  localStorage.setItem('aya-number-read', old_read +1 );
+
+                  aya_read.text( old_read +1 );
+
+                }
+
+                alert(someAyat[randomNumber]);
             })
         }
 
 
         function getDurar(keyWord){
 
-            $ .getJSON ( "http://dorar.net/dorar_api.json?skey="  + keyWord+  "&callback=?")  
+            $ .getJSON ( "http://dorar.net/dorar_api.json?skey="  + keyWord+  "&callback=?")
             .done(function(data) {
                     $durar .html ( "" ) ;
                     console.log( data );
                     $durar .append ( data.ahadith.result ) ;
+
+                    scroll.animateScroll(durarQ);
             })
             .fail(function(error) {
               alert(error)
@@ -371,70 +426,70 @@
             */;
 
         }
-      
-      
+
+
         if (window.localStorage) {
           // Browser supports localStorage
           // Good to go
           if( localStorage.getItem('quran-aya') ){
-      
+
             next.attr('data-item', localStorage.getItem('quran-aya') );
-      
+
           }
-          
+
 
           if( localStorage.getItem('aya-number-read') ){
-      
+
             aya_read.text( localStorage.getItem('aya-number-read') );
-      
+
           }
-          
-          
+
+
         }
-      
-      
+
+
         getQuote(next.attr('data-item'));
-      
-      
+
+
           $("#next").click(function(){
-      
+
             generators.attr('disabled', true);
-      
+
             getQuote( $(this).attr('data-item'));
-      
+
             generators.attr('disabled', false);
-      
+
           });
-      
+
           $("#last").click(function(){
-      
+
             generators.attr('disabled', true);
-      
+
             getQuote( $(this).attr('data-item'));
-      
+
             generators.attr('disabled', false);
-      
+
           });
 
 
 
           $("#random-aya").click(function(){
-      
+
             generators.attr('disabled', true);
 
             random = Math.floor(Math.random() * 6236) + 1;
-      
+
             getQuote( random );
-      
+
             generators.attr('disabled', false);
-      
+
           });
 
           ayadisp.on('click', '.search_about', function(){
 
             getDurar( $(this).text() );
 /*
-            axios.get('https://dorar.net/dorar_api.json?skey='+ $(this).text()+'&callback=?' , { 
+            axios.get('https://dorar.net/dorar_api.json?skey='+ $(this).text()+'&callback=?' , {
     headers: {
     'Content-Type' : 'application/json',
     'Access-Control-Allow-Origin': '*'
@@ -457,10 +512,10 @@
 */
 
           });
-      
-      
+
+
       });
-      
+
     </script>
   </body>
 </html>

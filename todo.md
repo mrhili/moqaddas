@@ -1,4 +1,4 @@
-when click on word got to durar
+
 
 when we ont have internet sayit
 	display random aya
