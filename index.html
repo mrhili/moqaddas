@@ -12,6 +12,7 @@
     <link href="css/prettyPhoto.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/responsive.css" rel="stylesheet">
+    <link href="css/mod.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -22,16 +23,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
     <link href="https://fonts.googleapis.com/css?family=Amiri" rel="stylesheet">
-    <style type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Markazi+Text:500&amp;subset=arabic" rel="stylesheet">
 
-
-      .quran{
-
-        font-family: 'Amiri', serif;
-        line-height: 2;
-
-      }
-    </style>
   </head>
   <body class="homepage">
     <header id="header">
@@ -86,13 +79,24 @@
     <section id="partner">
       <div class="container">
         <div class="center wow fadeInDown">
-        <div id="sajda"></div>
-          <h2 class="quran">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم </h2>
-          <hr />
+        <div class="col-xs-12">
+          <div id="sajda" class="col-xs-6">
+            
+          </div>
+          <div class="col-xs-6">
+          </div>
+          
+        </div>
+        
+          <h2 class="quran">أعوذ بالله من الشيطان الرجيم | <span id="aya-number-read">0</span> </h2>
+          <!--
+          بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم أو
+          -->
+          <hr class="style18">
           <br />
 
           <h1 id="aya-display" class="quran"></h1>
-          <hr />
+          <hr class="style18">
           <br />
           <p class="lead" id="translation-display"></p>
           <button id="last" class="btn btn-success pull-left gen"><i class="fa fa fa-caret-left"></i> last</button>
@@ -107,13 +111,13 @@
 
 
           <button id="next" class="btn btn-success pull-right gen" data-item="1">next <i class="fa fa fa-caret-right"></i></button>
-
+          <hr class="style18">
           <div class="col-xs-12">
 
             <div class="col-md-6">
               <div class="alert alert-default">
                 <h3>Informations about Surah:</h3>
-                <hr />
+                <hr class="style18">
                 <p>Surrah: N° <span id="surah-num">...</span>
                 <br />
                 <span id="surah-name-en">...</span> | <span id="surah-name-ar">...</span></p>
@@ -130,7 +134,7 @@
 
               <div class="alert alert-default">
                 <h3>Additional info: </h3>
-                <hr />
+                <hr class="style18">
                 <p>Juz : <span id="juz">...</span></p>
                 <p>Page : <span id="page">...</span></p>
                 <p>Hizb Quarter" : <span id="quart-hizb">...</span></p>
@@ -147,6 +151,58 @@
         </div>
       </div>
     </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <section id="feature">
+      <div class="container">
+        <div class="center wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
+          <h2 class="ar title-scripting"><i class="fa fa-search"></i> نتائج البحت عن الكلمات القرئانية في الدرر السنية</h2>
+          <br>
+
+          <div id="durar" class="scripting">
+            المرجوا الظغط على الكلمات القرئانية لكي يتحقق البحت.<br />
+            <a href="#aya-display"><i class="fa fa-5x fa-hand-o-up"></i></a>
+          </div>
+        </div>
+
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <section id="bottom">
       <div class="container wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
@@ -230,6 +286,8 @@
         page = $("#page");
         quartHizb = $("#quart-hizb");
         sajda = $("#sajda");
+        aya_read = $("#aya-number-read");
+        $durar = $("#durar");
 
       
         function getQuote(num){
@@ -239,8 +297,19 @@
               // handle success
 
               data = response.data;
+
+              joumla = String( data.data[0].text );
+
+              joumla_splited = joumla.split(' ');
+
+
+              joumla_splited =joumla_splited.map(function(klma){
+                return '<span class="search_about pointer">'+klma+'</span>';
+              });
+
+              joumla_trimed = joumla_splited.join(' ');
       
-              ayadisp.text(data.data[0].text);
+              ayadisp.html(joumla_trimed);
               transdisp.text(data.data[1].text);
 
               surahnum.text(data.data[0].surah.number);
@@ -266,6 +335,10 @@
               // Good to go
       
               localStorage.setItem('quran-aya', Number( response.data.data[0].number ) );
+              old_read = Number (localStorage.getItem('aya-number-read') );
+              localStorage.setItem('aya-number-read', old_read +1 );
+
+              aya_read.text( old_read +1 );
               
             }
       
@@ -279,6 +352,25 @@
               alert(error);
             })
         }
+
+
+        function getDurar(keyWord){
+
+            $ .getJSON ( "http://dorar.net/dorar_api.json?skey="  + keyWord+  "&callback=?")  
+            .done(function(data) {
+                    $durar .html ( "" ) ;
+                    console.log( data );
+                    $durar .append ( data.ahadith.result ) ;
+            })
+            .fail(function(error) {
+              alert(error)
+            })
+            /*
+            .always(function() {
+            })
+            */;
+
+        }
       
       
         if (window.localStorage) {
@@ -289,6 +381,14 @@
             next.attr('data-item', localStorage.getItem('quran-aya') );
       
           }
+          
+
+          if( localStorage.getItem('aya-number-read') ){
+      
+            aya_read.text( localStorage.getItem('aya-number-read') );
+      
+          }
+          
           
         }
       
@@ -328,6 +428,34 @@
       
             generators.attr('disabled', false);
       
+          });
+
+          ayadisp.on('click', '.search_about', function(){
+
+            getDurar( $(this).text() );
+/*
+            axios.get('https://dorar.net/dorar_api.json?skey='+ $(this).text()+'&callback=?' , { 
+    headers: {
+    'Content-Type' : 'application/json',
+    'Access-Control-Allow-Origin': '*'
+        } })
+
+            .then(function(response){
+
+              alert( response );
+
+              console.log( response );
+
+            })
+            .catch(function(error){
+
+              alert( error );
+
+              console.log( error );
+
+            });
+*/
+
           });
       
       
