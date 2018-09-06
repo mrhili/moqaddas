@@ -3,7 +3,7 @@
 when we ont have internet sayit
 	display random aya
 
-a sweet alert of your reaing ayat
+a sweet alert of your reading ayat
 
 salut him when he get a numbers of ayat
 

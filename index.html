@@ -25,6 +25,8 @@
     <link href="https://fonts.googleapis.com/css?family=Amiri" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Markazi+Text:500&amp;subset=arabic" rel="stylesheet">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" />
+
   </head>
   <body class="homepage">
     <header id="header">
@@ -101,6 +103,20 @@
           <p class="lead" id="translation-display"></p>
           <button id="last" class="btn btn-success pull-left gen"><i class="fa fa fa-caret-left"></i> last</button>
 
+          <button class="btn btn-default" id="speech">
+                    <i class="fa fa-volume-up"></i> Read Translation
+          </button>
+
+          <button class="btn btn-default " id="stop">
+                    <i class="fa fa-volume-off"></i> Stop Recitation
+          </button>
+
+          <button class="btn btn-default " id="recite">
+                    <i class="fa fa-volume-up"></i> Recite Quran
+          </button>
+
+
+
           <button class="btn btn-default cp" data-clipboard-target="#aya-display">
                     <i class="fa fa-clipboard"></i> copy Aya
           </button>
@@ -151,6 +167,11 @@
         </div>
       </div>
     </section>
+
+
+    <video id="vid" autobuffer="false" autoplay="false">
+      <source id="vid-src" src="" type="audio/mp3">
+    </video>
 
 
 
@@ -263,14 +284,30 @@
     </footer>
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
+    <script src='https://unpkg.com/nprogress@0.2.0/nprogress.js'></script>
+    <link rel='stylesheet' href='https://unpkg.com/nprogress@0.2.0/nprogress.css'/>
+
+
+    <script> NProgress.start();</script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
+
+    <script> NProgress.inc();</script>
     <script src="js/main.js"></script>
     <script src="js/wow.min.js"></script>
+
+    <script> NProgress.inc();</script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@14.2.1/dist/smooth-scroll.min.js"></script>
 
+    <script> NProgress.inc();</script>
+    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@14.2.1/dist/smooth-scroll.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.26.14/sweetalert2.all.min.js"></script>
+    <script> NProgress.inc();</script>
+    <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+
+    <script> NProgress.done();</script>
 
     <script type="text/javascript">new ClipboardJS('.cp');</script>
     <script>
@@ -295,48 +332,45 @@
         $durar = $("#durar");
         durarQ = document.querySelector('#durar');
 
+        $speech = $("#speech");
+        $stop = $("#stop");
+        $stop.hide();
+
+        $recite = $("#recite");
+
+        $vid = $("#vid");
+        $vidsrc = $("#vid-src");
+        $vid.hide();
+
         var someAyat = [
 
             [
-              "#last",
-              "#last"
+              "فَمَنْ تَوَلَّىٰ بَعْدَ ذَٰلِكَ فَأُولَٰئِكَ هُمُ الْفَاسِقُونَ",
+              "And, henceforth, all who turn away [from this pledge] - it is they, they who are truly iniquitous!"
             ],
             [
-              "#last",
-              "#last"
+              "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ يَا أَيُّهَا النَّاسُ اتَّقُوا رَبَّكُمْ ۚ إِنَّ زَلْزَلَةَ السَّاعَةِ شَيْءٌ عَظِيمٌ",
+              "O men! Be conscious of your Sustainer: for, verily the violent convulsion of the Last Hour will be an awesome thing!"
             ],
             [
-              "#last",
-              "#last"
+              "وَمِنْهُمْ مَنْ يَسْتَمِعُ إِلَيْكَ ۖ وَجَعَلْنَا عَلَىٰ قُلُوبِهِمْ أَكِنَّةً أَنْ يَفْقَهُوهُ وَفِي آذَانِهِمْ وَقْرًا ۚ وَإِنْ يَرَوْا كُلَّ آيَةٍ لَا يُؤْمِنُوا بِهَا ۚ حَتَّىٰ إِذَا جَاءُوكَ يُجَادِلُونَكَ يَقُولُ الَّذِينَ كَفَرُوا إِنْ هَٰذَا إِلَّا أَسَاطِيرُ الْأَوَّلِينَ",
+              "And there are among them such as [seem to] listen to thee [O Prophet]: but over their hearts We have laid veils which prevent them from grasping the truth, and into their ears, deafness. And were they to see every sign [of the truth], they would still not believe in it-so much so that when they come unto thee to contend with thee, those who are bent on denying the truth say, \"This is nothing but fables of ancient times!\""
             ],
             [
-              "#last",
-              "#last"
-            ],
-            [
-              "#last",
-              "#last"
-            ],
-            [
-              "#last",
-              "#last"
-            ],
-            [
-              "#last",
-              "#last"
-            ],
-            [
-              "#last",
-              "#last"
+              "هَلْ يَنْظُرُونَ إِلَّا أَنْ تَأْتِيَهُمُ الْمَلَائِكَةُ أَوْ يَأْتِيَ رَبُّكَ أَوْ يَأْتِيَ بَعْضُ آيَاتِ رَبِّكَ ۗ يَوْمَ يَأْتِي بَعْضُ آيَاتِ رَبِّكَ لَا يَنْفَعُ نَفْسًا إِيمَانُهَا لَمْ تَكُنْ آمَنَتْ مِنْ قَبْلُ أَوْ كَسَبَتْ فِي إِيمَانِهَا خَيْرًا ۗ قُلِ انْتَظِرُوا إِنَّا مُنْتَظِرُونَ",
+              "Do they, perchance, wait for the angels to appear unto them, or for thy Sustainer [Himself] to appear, or for some of thy Sustainer's [final] portents to appear? [But] on the Day when thy Sustainer's [final] portents do appear, believing will be of no avail to any human being who did not believe before, or who, while believing, did no good works. Say: \"Wait, [then, for the Last Day, O unbelievers:] behold, we [believers] are waiting, too!\""
             ]
          ];
 
 
         function getQuote(num){
+          NProgress.start();
           ///editions/quran-uthmani,en.asad
             axios.get('http://api.alquran.cloud/ayah/'+num+'/editions/quran-simple,en.asad')
             .then(function (response) {
               // handle success
+
+              NProgress.inc();
 
               data = response.data;
 
@@ -347,6 +381,8 @@
               joumla_splited =joumla_splited.map(function(klma){
                 return '<span class="search_about pointer">'+klma+'</span>';
               });
+
+              NProgress.inc();
 
               joumla_trimed = joumla_splited.join(' ');
 
@@ -361,20 +397,24 @@
               page.text(data.data[0].page);
               quartHizb.text(data.data[0].hizbQuarter);
 
+              NProgress.inc();
+
               if(data.data[0].sajda){
 
                 sajda.html('<img src="images/application/quran/sujud.png" height="150" width="150">');
 
               }
 
+              NProgress.inc();
+
 
               next.attr('data-item', Number( response.data.data[0].number ) +1 );
               last.attr('data-item', Number( response.data.data[0].number ) -1 );
 
-            if (window.localStorage) {
-              // Browser supports localStorage
-              // Good to go
 
+              NProgress.inc();
+
+            if (window.localStorage) {
               localStorage.setItem('quran-aya', Number( response.data.data[0].number ) );
               old_read = Number (localStorage.getItem('aya-number-read') );
               localStorage.setItem('aya-number-read', old_read +1 );
@@ -383,18 +423,34 @@
 
             }
 
+            window.aya = response.data.data[0].number;
+
+            NProgress.done();
+
               console.log(response);
             })
             .catch(function (error) {
               // handle error
               console.log(error);
+              NProgress.inc();
+              swal({
+                position: 'top-end',
+                type: 'error',
+                title: 'No internet',
+                showConfirmButton: false,
+                timer: 1500
+              })
+
+              NProgress.inc();
 
                 var randomNumber = Math.floor(Math.random()*someAyat.length);
 
-                ayadisp.html( someAyat[randomNumber] );
+                ayadisp.html( someAyat[randomNumber][0] );
+                transdisp.html( someAyat[randomNumber][1] );
+
+              NProgress.inc();
+
                 if (window.localStorage) {
-                  // Browser supports localStorage
-                  // Good to go
 
                   localStorage.setItem('aya-number-read', old_read +1 );
 
@@ -402,15 +458,19 @@
 
                 }
 
-                alert(someAyat[randomNumber]);
+              NProgress.done();
             })
         }
 
 
         function getDurar(keyWord){
 
+          NProgress.start();
+
             $ .getJSON ( "http://dorar.net/dorar_api.json?skey="  + keyWord+  "&callback=?")
             .done(function(data) {
+
+              NProgress.inc();
                     $durar .html ( "" ) ;
                     console.log( data );
                     $durar .append ( data.ahadith.result ) ;
@@ -418,12 +478,24 @@
                     scroll.animateScroll(durarQ);
             })
             .fail(function(error) {
-              alert(error)
+
+              NProgress.inc();
+              swal({
+                position: 'top-end',
+                type: 'error',
+                title: 'No Hadith',
+                showConfirmButton: false,
+                timer: 1500
+              })
+
+
             })
-            /*
+
             .always(function() {
+
+              NProgress.done();
             })
-            */;
+            ;
 
         }
 
@@ -485,33 +557,78 @@
 
           });
 
+          $recite.on('click', function(){
+            NProgress.start();
+            ///editions/quran-uthmani,en.asad
+              axios.get('http://api.alquran.cloud/ayah/'+ window.aya +'/ar.alafasy')
+              .then(function (response) {
+                alert(response.data.data.audio);
+
+
+
+                $vidsrc.attr('src', response.data.data.audio  );
+                $vid.currentTime = 0;
+            		$vid.trigger('pause');
+
+                $vid.trigger('play');
+
+
+
+                NProgress.done();
+
+              })
+              .catch(function (response) {
+                alert( window.aya );
+
+                NProgress.done();
+
+                swal({
+                  position: 'top-end',
+                  type: 'error',
+                  title: 'No Voice',
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+
+              })
+
+
+          });
+
+          $speech.on('click',function(){
+
+            if(responsiveVoice.voiceSupport()) {
+              responsiveVoice.speak(transdisp.text(), 'UK English Male',{
+                onstart: function(){
+                  $speech.hide();
+                  $stop.show();
+
+                }, onend: function(){
+                  $speech.show();
+                  $stop.hide();
+
+                }
+            });
+            }
+
+
+          });
+
+          $stop.on('click',function(){
+              responsiveVoice.cancel();
+              $(this).hide();
+              $speech.show();
+
+
+          });
+
           ayadisp.on('click', '.search_about', function(){
 
             getDurar( $(this).text() );
-/*
-            axios.get('https://dorar.net/dorar_api.json?skey='+ $(this).text()+'&callback=?' , {
-    headers: {
-    'Content-Type' : 'application/json',
-    'Access-Control-Allow-Origin': '*'
-        } })
-
-            .then(function(response){
-
-              alert( response );
-
-              console.log( response );
-
-            })
-            .catch(function(error){
-
-              alert( error );
-
-              console.log( error );
-
-            });
-*/
 
           });
+
+
 
 
       });
